@@ -24,8 +24,7 @@ class STEODETrainer:
         else:
             loss = F.cross_entropy(outputs, labels) + cl_loss
             # loss = F.cross_entropy(outputs, labels)
-
-
+        
         loss.backward()
         self.optimizer.step()
         return loss.item()

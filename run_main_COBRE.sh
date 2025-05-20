@@ -1,9 +1,9 @@
-data_type=cannabis
+data_type=cobre
 num_epochs=300
 batch_size=4
 num_timesteps=2
-num_nodes=90
-input_dim=405
+num_nodes=118
+input_dim=75
 hidden_dim=64
 num_classes=2
 

@@ -1,39 +1,10 @@
 import pandas as pd
 import numpy as np
 import torch
-from nilearn.connectome import ConnectivityMeasure
-from scipy.sparse.csgraph import minimum_spanning_tree
 from torch.utils.data import Dataset
+from utils import *
+from os.path import join, exists
 
-def tree_construction(fmri_timeseries):
-
-    fmri_timeseries = fmri_timeseries.T
-
-    correlation_measure = ConnectivityMeasure(kind="correlation")
-    correlation_matrix = correlation_measure.fit_transform([fmri_timeseries])[0]
-
-    spanning_tree = minimum_spanning_tree(1 - correlation_matrix)
-
-    brain_tree = (spanning_tree + spanning_tree.T) > 0
-    brain_tree = brain_tree.toarray().astype(float)
-
-    return brain_tree
-
-def padding(data):
-    n_channels, n_length = data.size()
-
-    target_length = 810
-
-    if n_length < target_length:
-        pad_length = target_length - n_length
-  
-        mean_value = torch.mean(data, dim=1, keepdim=True)  
-
-        padded_data = torch.cat([data, mean_value.expand(n_channels, pad_length)], dim=1)
-    else:
-        padded_data = data  
-
-    return padded_data
 
 class BrainNetworkDataset(Dataset):
     def __init__(self, A_s, A_f_seq, X_seq, labels, ages, edge_lists):
@@ -66,111 +37,154 @@ def custom_collate(batch):
     return A_s, A_f_seq, X_seq, labels, ages, edge_lists
 
 
-def dataloader(data_type, num_timesteps):
+def load_cannabis(base_dir: str):
+    """讀取 Cannabis 資料集，回傳 raw_ts(list[np.ndarray]), labels, ages"""
+    data_dir = join(base_dir, "data")
+    parcellation_dir = join(data_dir, "compcor_nilearn_parcellation")
+
+    df = pd.read_csv(join(base_dir, "data", "demographics.csv"))
+    df["age"] = pd.to_numeric(df["age"], errors="coerce")
+
+    raw_ts, labels, ages = [], [], []
+    for _, row in df.iterrows():
+        ts = pd.read_csv(
+            join(parcellation_dir, f"{row.subject}_stanford_rois.csv"),
+            sep="\t",
+            header=None,
+        ).values.T
+        
+        ts = padding(torch.tensor(ts))
+        raw_ts.append(ts)
+        labels.append(row.label)
+        ages.append(row.age)
+
+    return raw_ts, np.asarray(labels), np.asarray(ages)
+
+
+def _get_paths_COBRE(phenotypes, atlas, ts_dir):
+    dx_map = {"No_Known_Disorder": 0, "Schizophrenia_Strict": 2}
+    phenotypes = phenotypes[phenotypes.Dx.isin(dx_map)]
+    phenotypes["Dx"] = phenotypes["Dx"].map(dx_map).astype(int)
+    phenotypes = phenotypes.drop_duplicates("Subject_ID")
+
+    raw_ts, labels, ages = [], [], []
+    for _, row in phenotypes.iterrows():
+        f = join(ts_dir, atlas, f"{row.Subject_ID}_timeseries.txt")
+        if exists(f):
+            raw_ts.append(np.loadtxt(f).T)
+            labels.append(row.Dx)
+            ages.append(row.Age)  
+    _, classes = np.unique(np.asarray(labels), return_inverse=True)
   
-    if data_type == 'cannabis':
-        base_dir     = '/home/jding/Documents/datasets/Cannabis/'
-        data_dir     = base_dir + "data"
-        analysis_dir = base_dir + '/analysis'
-        feat_mat_dir = analysis_dir + '/feature_matrices'
-        parcellation_dir = f'{data_dir}/compcor_nilearn_parcellation/'
-        splits_df = pd.read_csv('/home/jding/Documents/cannabis-classifier/new_df.csv')
-        splits_df['age'] = pd.to_numeric(splits_df['age'], errors='coerce')
-        ages = np.array(splits_df['age'])
-        labels = np.array(splits_df['label'])
-
-        raw = []
-        for sub_name in splits_df['subject']:
-            full_ts = pd.read_csv(f'{parcellation_dir}/{sub_name}_stanford_rois.csv', sep='\t', header=None).values.T
-            full_ts = padding(torch.tensor(full_ts))
-            raw.append(full_ts)
-
-        adj_list = []
-        all_adj_matrices = []
-        A_d_seq_list = []
-        adj_tree_list = []
-        X_seq_list = []
-        edge_list_list = []
-        num_nodes = raw[0].shape[0]
-        num_samples = len(raw)
-
-        connectivity_measure = ConnectivityMeasure(kind="correlation")
-
-        for i, (tseries, sub_name) in enumerate(zip(raw, splits_df['subject'])):
-            half = tseries.shape[1] // 2
-            tseries = torch.tensor(tseries)
-            tseries = padding(tseries)
-
-            adj_full = np.abs(connectivity_measure.fit_transform([tseries.numpy().T])[0])
-            adj_list.append(adj_full)
-            adj_first_half = np.abs(connectivity_measure.fit_transform([tseries[:, 0:half].numpy().T])[0])
-            adj_second_half = np.abs(connectivity_measure.fit_transform([tseries[:, half:].numpy().T])[0])
-            
-            brain_tree = tree_construction(tseries.numpy())  
-            adj_tree_list.append(brain_tree)
-            row, col = brain_tree.nonzero()
-            edge_list = list(zip(row, col))
-            edge_list_list.append(edge_list)
-            
-
-            sample_adj_matrices = np.stack([adj_first_half, adj_second_half], axis=0)
-            all_adj_matrices.append(sample_adj_matrices)
+    return raw_ts, classes, np.asarray(ages)
 
 
-            X_seq_first_half = tseries[:, 0:half]
-            X_seq_second_half = tseries[:, half:]
-            X_seq_matrices = np.stack([X_seq_first_half.numpy(), X_seq_second_half.numpy()], axis=0)
-            X_seq_list.append(X_seq_matrices)
+def load_cobre(ts_dir: str, pheno_csv: str, atlas: str = "HarvardOxford"):
+    phenotypes = pd.read_csv(pheno_csv)
+    return _get_paths_COBRE(phenotypes, atlas, ts_dir)
 
 
-            seg_len = tseries.shape[1] // 2
-            first_seg = tseries[:, :seg_len]
-            second_seg = tseries[:, seg_len:]
- 
-            A_d_matrices = np.zeros((num_timesteps, num_nodes, num_nodes))
+def postprocess_timeseries(raw_ts, ages, num_timesteps):
+    
+    
+    adj_list = []
+    all_adj_matrices = []
+    A_d_seq_list = []
+    adj_tree_list = []
+    X_seq_list = []
+    edge_list_list = []
+    num_nodes = raw_ts[0].shape[0]
+    num_samples = len(raw_ts)
 
-            # t=0: calculate first_seg -> second_seg
-            t = 0
-            A_t = first_seg.numpy()
-            A_t_plus_1 = second_seg.numpy()
-            for i_node in range(num_nodes):
-                for j_node in range(num_nodes):
-                    if A_t[i_node].mean() != 0:  # Avoid division by zero
-                        A_d_matrices[t, i_node, j_node] = 0.5 * (
-                            A_t_plus_1[j_node].mean() / A_t[i_node].mean() - 0.5 * ages[i]
-                        )
+    connectivity_measure = ConnectivityMeasure(kind="correlation")
 
-            # t=1: calculate second_seg 
-            t = 1
-            A_t = second_seg.numpy()
-            for i_node in range(num_nodes):
-                for j_node in range(num_nodes):
-                    if A_t[i_node].mean() != 0:  # Avoid division by zero
-                        A_d_matrices[t, i_node, j_node] = 0.5 * (
-                            A_t[j_node].mean() / A_t[i_node].mean() - 0.5 * ages[i]
-                        )
-            
-            A_d_seq_list.append(A_d_matrices)
+    for idx, ts in enumerate(raw_ts):
+        half = ts.shape[1] // 2
+        ts = torch.tensor(ts)
 
-        A_s = np.array(adj_list)
-        A_d_seq = np.array(A_d_seq_list)
-        X_seq = np.array(X_seq_list)
-        edge_lists = edge_list_list
-
-        for i in range(num_samples): 
-            D_s = np.sum(A_s[i], axis=1)
-            D_s_inv_sqrt = np.diag(1.0 / np.sqrt(D_s + 1e-10))
-            A_s[i] = D_s_inv_sqrt @ A_s[i] @ D_s_inv_sqrt
-
-            for t in range(num_timesteps):
-                D_in = np.sum(np.abs(A_d_seq[i, t]), axis=0)
-                D_out = np.sum(np.abs(A_d_seq[i, t]), axis=1)
-                D_in_inv_sqrt = np.diag(1.0 / np.sqrt(D_in + 1e-10))
-                D_out_inv_sqrt = np.diag(1.0 / np.sqrt(D_out + 1e-10))
-                A_d_seq[i, t] = D_out_inv_sqrt @ A_d_seq[i, t] @ D_in_inv_sqrt
+        adj_full = np.abs(connectivity_measure.fit_transform([ts.numpy().T])[0])
+        adj_list.append(adj_full)
+        adj_first_half = np.abs(connectivity_measure.fit_transform([ts[:, 0:half].numpy().T])[0])
+        adj_second_half = np.abs(connectivity_measure.fit_transform([ts[:, half:].numpy().T])[0])
         
-        return A_s, A_d_seq, X_seq, labels, ages, edge_lists
+        brain_tree = tree_construction(ts.numpy())  
+        adj_tree_list.append(brain_tree)
+        row, col = brain_tree.nonzero()
+        edge_list = list(zip(row, col))
+        edge_list_list.append(edge_list)
         
 
-    elif data_type == 'cobre':
-        pass
+        sample_adj_matrices = np.stack([adj_first_half, adj_second_half], axis=0)
+        all_adj_matrices.append(sample_adj_matrices)
+
+
+        X_seq_first_half = ts[:, 0:half]
+        X_seq_second_half = ts[:, half:]
+        # import pdb;pdb.set_trace()
+        X_seq_matrices = np.stack([X_seq_first_half.numpy(), X_seq_second_half.numpy()], axis=0)
+        X_seq_list.append(X_seq_matrices)
+
+
+        seg_len = ts.shape[1] // 2
+        first_seg = ts[:, :seg_len]
+        second_seg = ts[:, seg_len:]
+
+        A_d_matrices = np.zeros((num_timesteps, num_nodes, num_nodes))
+
+        # t=0: calculate first_seg -> second_seg
+        t = 0
+        A_t = first_seg.numpy()
+        A_t_plus_1 = second_seg.numpy()
+        for i_node in range(num_nodes):
+            for j_node in range(num_nodes):
+                if A_t[i_node].mean() != 0:  # Avoid division by zero
+                    A_d_matrices[t, i_node, j_node] = 0.5 * (
+                        A_t_plus_1[j_node].mean() / A_t[i_node].mean() - 0.5 * ages[idx]
+                    )
+
+        # t=1: calculate second_seg 
+        t = 1
+        A_t = second_seg.numpy()
+        for i_node in range(num_nodes):
+            for j_node in range(num_nodes):
+                if A_t[i_node].mean() != 0:  # Avoid division by zero
+                    A_d_matrices[t, i_node, j_node] = 0.5 * (
+                        A_t[j_node].mean() / A_t[i_node].mean() - 0.5 * ages[idx]
+                    )
+        
+        A_d_seq_list.append(A_d_matrices)
+
+    A_s = np.array(adj_list)
+    A_d_seq = np.array(A_d_seq_list)
+    X_seq = np.array(X_seq_list)
+    edge_lists = edge_list_list
+
+    for i in range(num_samples): 
+        D_s = np.sum(A_s[i], axis=1)
+        D_s_inv_sqrt = np.diag(1.0 / np.sqrt(D_s + 1e-10))
+        A_s[i] = D_s_inv_sqrt @ A_s[i] @ D_s_inv_sqrt
+
+        for t in range(num_timesteps):
+            D_in = np.sum(np.abs(A_d_seq[i, t]), axis=0)
+            D_out = np.sum(np.abs(A_d_seq[i, t]), axis=1)
+            D_in_inv_sqrt = np.diag(1.0 / np.sqrt(D_in + 1e-10))
+            D_out_inv_sqrt = np.diag(1.0 / np.sqrt(D_out + 1e-10))
+            A_d_seq[i, t] = D_out_inv_sqrt @ A_d_seq[i, t] @ D_in_inv_sqrt
+    # import pdb;pdb.set_trace()
+    return A_s, A_d_seq, X_seq, edge_lists
+
+
+def dataloader(data_type: str, num_timesteps: int):
+    if data_type == "cannabis":
+        raw_ts, labels, ages = load_cannabis("./datasets/cannabis")
+    elif data_type == "cobre":
+        raw_ts, labels, ages = load_cobre(
+            "/home/jding/Music/fMRI_DTI_code/benchmark_rsfMRI_prediction/COBRE",
+            "/home/jding/Music/Brain_Age_Modeling/COBRE_meta.csv",
+        )
+        
+    else:
+        raise ValueError(f"No data exist")
+
+    A_s, A_d_seq, X_seq, edge_lists = postprocess_timeseries(raw_ts, ages, num_timesteps)
+    return A_s, A_d_seq, X_seq, labels, ages, edge_lists

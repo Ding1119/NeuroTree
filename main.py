@@ -18,61 +18,56 @@ def train_eval(data_type, num_epochs, batch_size, num_nodes, num_timesteps, inpu
 
     if data_type == 'cannabis':
         A_s, A_f_seq, X_seq, labels, ages, edge_lists = dataloader(data_type, num_timesteps)
-        num_samples = len(A_s)
-        indices = np.arange(num_samples)
-        train_indices, test_indices = train_test_split(indices, test_size=0.2, random_state=42)
-        train_edge_lists = [edge_lists[i] for i in train_indices]
-        test_edge_lists = [edge_lists[i] for i in test_indices]
-
-        train_dataset = BrainNetworkDataset(
-        A_s[train_indices],
-        A_f_seq[train_indices],
-        X_seq[train_indices],
-        labels[train_indices],
-        ages[train_indices],
-        train_edge_lists
-        )
-
-        test_dataset = BrainNetworkDataset(
-        A_s[test_indices],
-        A_f_seq[test_indices],
-        X_seq[test_indices],
-        labels[test_indices],
-        ages[test_indices],
-        test_edge_lists
-        )
-
-        train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True, collate_fn=custom_collate)
-        test_loader = DataLoader(test_dataset, batch_size=batch_size, collate_fn=custom_collate)
-
-        print("Creating model...")
-        model = create_ste_ode_model(
-            num_nodes=num_nodes,
-            input_dim=input_dim,
-            hidden_dim=hidden_dim,
-            num_classes=num_classes,
-            num_timesteps=num_timesteps
-        )
-
-        print("Training model...")
-        print(f"Using device: {device}")
-        train_model(
-            model=model,
-            train_loader=train_loader,
-            test_loader=test_loader,
-            num_epochs=num_epochs,
-            device=device
-        )
-        print("Evaluating final model...")
-
-        trunks = evaluate_final_model(model, test_loader, device, save_plots=True, plot_limit=10)
-        
         
 
     elif data_type == 'cobre':
-        pass
+        A_s, A_f_seq, X_seq, labels, ages, edge_lists = dataloader(data_type, num_timesteps)
 
+    num_samples = len(A_s)
+    indices = np.arange(num_samples)
+    train_indices, test_indices = train_test_split(indices, test_size=0.2, random_state=42)
+    train_edge_lists = [edge_lists[i] for i in train_indices]
+    test_edge_lists = [edge_lists[i] for i in test_indices]
 
+    train_dataset = BrainNetworkDataset(
+                        A_s[train_indices],
+                        A_f_seq[train_indices],
+                        X_seq[train_indices],
+                        labels[train_indices],
+                        ages[train_indices],
+                        train_edge_lists)
+
+    test_dataset = BrainNetworkDataset(
+                        A_s[test_indices],
+                        A_f_seq[test_indices],
+                        X_seq[test_indices],
+                        labels[test_indices],
+                        ages[test_indices],
+                        test_edge_lists)
+
+    train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True, collate_fn=custom_collate)
+    test_loader = DataLoader(test_dataset, batch_size=batch_size, collate_fn=custom_collate)
+
+    print("Creating model...")
+    model = create_ste_ode_model(
+        num_nodes=num_nodes,
+        input_dim=input_dim,
+        hidden_dim=hidden_dim,
+        num_classes=num_classes,
+        num_timesteps=num_timesteps)
+
+    print("Training model...")
+    print(f"Using device: {device}")
+    train_model(
+        model=model,
+        train_loader=train_loader,
+        test_loader=test_loader,
+        num_epochs=num_epochs,
+        device=device)
+    
+    print("Evaluating final model...")
+
+    trunks = evaluate_final_model(model, test_loader, device, save_plots=True, plot_limit=10)
 
 
 
