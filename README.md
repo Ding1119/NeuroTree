@@ -13,12 +13,14 @@
     <a href="https://users.cs.fiu.edu/~dluo/" target='_blank'>Dongsheng Luo</a><sup>2</sup>&nbsp;&nbsp;&nbsp;
     <a href="https://www.linkedin.com/in/chenwei-wu-498a3515a/" target='_blank'>Chenwei Wu</a><sup>3</sup>&nbsp;&nbsp;&nbsp;
     <a href="https://scholar.google.com/citations?user=jg5A1hwAAAAJ&hl=en" target='_blank'>Anna Zilverstand</a><sup>4</sup>&nbsp;&nbsp;&nbsp;
+    <a href="https://profiles.mountsinai.org/kaustubh-r-kulkarni" target='_blank'>Kaustubh Kulkarni</a><sup>5</sup>&nbsp;&nbsp;&nbsp;
     <a href="https://www.stevens.edu/profile/fliu22" target='_blank'>Feng Liu</a><sup>1</sup>&nbsp;&nbsp;&nbsp;
     </br></br>
     <sup>1</sup>SIT (Brain Imaging & Graph Learning Lab)&nbsp;&nbsp;&nbsp;
     <sup>2</sup>FIU&nbsp;&nbsp;&nbsp;
     <sup>3</sup>UMich&nbsp;&nbsp;&nbsp;
     <sup>4</sup>UMN&nbsp;&nbsp;&nbsp;
+    <sup>5</sup>Mount Sinai&nbsp;&nbsp;&nbsp;  
 </div>
 
 
@@ -43,7 +45,10 @@ In this work, we propose a novel framework called $\textbf{NuroTree}$ that contr
 
 ---
 
-## Download Processed Data
+<h2>
+  <img src="assets/google_drive.png" width="28" style="vertical-align: middle; margin-right: 8px;">
+  Download Processed Data
+</h2>
 
 Processed data data file can be download from Lab google drive [Here](https://drive.google.com/drive/folders/1_jSPlO_wCqJ9hGrirt4T35SjdOUT0Ytp?usp=sharing) and put your local path ```./datasets```.
 
