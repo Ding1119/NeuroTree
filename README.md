@@ -22,8 +22,44 @@
 </div>
 
 
+# 🧠 Overview
 
+In this work, we propose a novel framework called $\textbf{NuroTree}$ that contributes to computational neuroscience by integrating demographic information into Neural ODEs for brain network modeling via k-hop graph convolution, investigating addiction and schizophrenia datasets to decode fMRI signals and construct disease-specific brain trees with hierarchical functional subnetworks, and achieving state-of-the-art classification performance while effectively interpreting how these disorders alter functional connectivity related to brain age.
 
 <p align="center">
     <img src="assets/framework.gif" width="100%"\>
 </p>
+
+### 🔧 Installation
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/Ding1119/NeuroTree.git
+   cd NeuroTree
+   ```
+2. Install dependencies:
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+---
+
+## Download processed data
+
+Processed data data file can be download from Lab google drive [Here](https://drive.google.com/drive/folders/1_jSPlO_wCqJ9hGrirt4T35SjdOUT0Ytp?usp=sharing)
+
+## 🗂️ Repository Structure
+
+```
+NEUROTREE/
+├── brain_tree_cobre_visualization/     # Visualization scripts for COBRE dataset
+├── data_handler/                       # Dataset preprocessing and loading utilities
+├── models/                             # GNN model architectures (e.g., trunk finder, GPC layers)
+├── Tutorial/                           # Example notebooks or tutorials
+├── visualization/                      # Plotting and result visualization tools
+├── main.py                             # Main training pipeline
+├── run_main_cannabis.sh                # Shell script to run training on Cannabis dataset
+├── run_main_COBRE.sh                   # Shell script to run training on COBRE dataset
+├── training_eval_utils.py              # Training and evaluation helper functions
+├── tree_trunk_utils.py                 # High-order trunk extraction utilities
+├── utils.py                            # Miscellaneous utility functions
+└── README.md                           # Project documentation
