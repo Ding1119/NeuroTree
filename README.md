@@ -45,9 +45,7 @@ In this work, we propose a novel framework called $\textbf{NuroTree}$ that contr
 
 ---
 
-<p>
-  <img src="assets/google_drive.png" width="24"> &nbsp;<strong>Download Processed Data</strong>
-</p>
+## 🌟 Download Processed Data
 
 
 
