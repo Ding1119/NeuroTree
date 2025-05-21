@@ -47,6 +47,8 @@ In this work, we propose a novel framework called $\textbf{NuroTree}$ that contr
 
 ## 🌟 Download Processed Data
 
+* Cannabis: Stanford (90 ROIs)
+* COBRE: Harvard-Oxford (118 ROIs)
 
 Processed data data file can be download from Lab google drive [Here](https://drive.google.com/drive/folders/1_jSPlO_wCqJ9hGrirt4T35SjdOUT0Ytp?usp=sharing) and put your local path ```./datasets```.
 
