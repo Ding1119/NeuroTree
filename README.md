@@ -117,3 +117,30 @@ python main.py \
 | <img src="./assets/age_group_trajactory.png" width="80%"> |
 |:----------------------------------------------------:|
 | Predicted FC changes in different age groups and affiliated functional subnetworks. |
+
+## Acknowledgement
+
+We would like to express our sincere gratitude to **Kaustubh R. Kulkarni** and **Dr. Xiaosi Gu** from **Mount Sinai** for generously providing open-access addiction-related neuroimaging data and for their valuable contributions to addiction neuroscience research.
+
+For further context on their work, we encourage readers to explore the following publication by Kaustubh R. Kulkarni:
+
+📄 [*An Interpretable and Predictive Connectivity-Based Neural Signature for Chronic Cannabis Use*](https://www.sciencedirect.com/science/article/pii/S2451902222001264)
+
+
+
+## 📄 Citation
+
+If you use this codebase, please cite:
+
+```
+@article{your2025neurotree,
+  title={NEUROTREE: Hierarchical Functional Brain Pathway Decoding for Mental Health Disorders},
+  author={Your Name et al.},
+  journal={[Journal Name]},
+  year={2025}
+}
+```
+
+## 📬 Contact
+
+Welcome to contact the [author](https://www.jun-ending.com/) at jding17@stevens.edu or collaborations if you have any questions about using the code. Note that experimental performance may vary slightly due to differences in computer hardware and environment.
