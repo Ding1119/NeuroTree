@@ -164,3 +164,5 @@ If you use this codebase, please cite:
 ## 📬 Contact
 
 Welcome to contact the [author](https://www.jun-ending.com/) at jding17@stevens.edu or collaborations if you have any questions about using the code. Note that experimental performance may vary slightly due to differences in computer hardware and environment.
+
+![Ding's GitHub stats](https://github-readme-stats.vercel.app/api?username=Ding&show_icons=true&theme=radical)
