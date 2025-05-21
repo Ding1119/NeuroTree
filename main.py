@@ -12,7 +12,7 @@ from sklearn.model_selection import train_test_split
 
 
 
-def train_eval(data_type, num_epochs, batch_size, num_nodes, num_timesteps, input_dim, hidden_dim, num_classes):
+def train_eval(data_type, brain_tree_plot, num_epochs, batch_size, num_nodes, num_timesteps, input_dim, hidden_dim, num_classes):
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
     print(f"=======Loading {data_type} dataset...=======")
@@ -68,13 +68,14 @@ def train_eval(data_type, num_epochs, batch_size, num_nodes, num_timesteps, inpu
     
     print("Evaluating final model...")
 
-    trunks = evaluate_final_model(model, test_loader, device, save_plots=True, plot_limit=10, data_type=data_type)
+    trunks = evaluate_final_model(model, test_loader, device, save_plots=True, plot_limit=10, data_type=data_type, brain_tree_plot=brain_tree_plot)
 
 
 
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--data_type', type=str, default='cannabis')
+    parser.add_argument('--brain_tree_plot', type=str, default=True)
     parser.add_argument('--num_epochs', type=int, default=100)
     parser.add_argument('--batch_size', type=int, default=16)
     parser.add_argument('--num_nodes', type=int, default=90)
@@ -84,7 +85,7 @@ def main():
     parser.add_argument('--num_classes', type=int, default=2)
     args = parser.parse_args()
 
-    train_eval(args.data_type, args.num_epochs, args.batch_size, args.num_nodes, args.num_timesteps,
+    train_eval(args.data_type, args.brain_tree_plot, args.num_epochs, args.batch_size, args.num_nodes, args.num_timesteps,
                args.input_dim, args.hidden_dim, args.num_classes)
     
 

@@ -179,8 +179,8 @@ def dataloader(data_type: str, num_timesteps: int):
         raw_ts, labels, ages = load_cannabis("./datasets/cannabis")
     elif data_type == "cobre":
         raw_ts, labels, ages = load_cobre(
-            "/home/jding/Music/fMRI_DTI_code/benchmark_rsfMRI_prediction/COBRE",
-            "/home/jding/Music/Brain_Age_Modeling/COBRE_meta.csv",
+            "./datasets/COBRE",
+            "./datasets/COBRE_meta.csv",
         )
         
     else:

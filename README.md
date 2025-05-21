@@ -43,7 +43,7 @@ In this work, we propose a novel framework called $\textbf{NuroTree}$ that contr
 
 ---
 
-## Download processed data
+## Download Processed Data
 
 Processed data data file can be download from Lab google drive [Here](https://drive.google.com/drive/folders/1_jSPlO_wCqJ9hGrirt4T35SjdOUT0Ytp?usp=sharing)
 
@@ -52,14 +52,58 @@ Processed data data file can be download from Lab google drive [Here](https://dr
 ```
 NEUROTREE/
 ├── brain_tree_cobre_visualization/     # Visualization scripts for COBRE dataset
+├── datasets/                           # Please place the fMRI and .csv files downloaded from Google Drive here 
 ├── data_handler/                       # Dataset preprocessing and loading utilities
-├── models/                             # GNN model architectures (e.g., trunk finder, GPC layers)
-├── Tutorial/                           # Example notebooks or tutorials
-├── visualization/                      # Plotting and result visualization tools
+├── models/                             # ODE-bsed GCN model architectures
+├── Tutorial/                           # Example jupyter notebooks 
+├── visualization/                      # Plotting and visualization .py code
 ├── main.py                             # Main training pipeline
 ├── run_main_cannabis.sh                # Shell script to run training on Cannabis dataset
 ├── run_main_COBRE.sh                   # Shell script to run training on COBRE dataset
 ├── training_eval_utils.py              # Training and evaluation helper functions
-├── tree_trunk_utils.py                 # High-order trunk extraction utilities
+├── tree_trunk_utils.py                 # High-order tree path extraction utilities
 ├── utils.py                            # Miscellaneous utility functions
 └── README.md                           # Project documentation
+```
+
+## 🚀 Getting Started
+
+To run the training script with configurable parameters, using the cannabis dataset as an example:
+
+```bash
+bash run_main_cannabis.sh
+```
+### Task 1 (Graph Classification):
+
+Set the argparse **classes=2**
+
+```bash
+data_type=cannabis
+brain_tree_plot=False
+num_epochs=5
+batch_size=4
+num_timesteps=2
+num_nodes=90
+input_dim=405
+hidden_dim=64
+num_classes=2
+
+
+python main.py \
+  --data_type ${data_type} \
+  --brain_tree_plot ${brain_tree_plot} \
+  --num_epochs ${num_epochs} \
+  --batch_size ${batch_size} \
+  --num_timesteps ${num_timesteps} \
+  --num_nodes ${num_nodes} \
+  --input_dim ${input_dim} \
+  --hidden_dim ${hidden_dim} \
+  --num_classes ${num_classes}
+```
+
+### Task 2 (Brain Age Estimation):
+
+Set the argparse **classes=1**
+
+
+

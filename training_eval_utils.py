@@ -101,7 +101,7 @@ def train_model(model, train_loader, test_loader, num_epochs, device):
         print(f"Epoch {epoch}: Train Loss = {avg_train_loss:.4f}, test Loss = {avg_test_loss:.4f}")
 
 
-def evaluate_final_model(model, test_loader, device, save_plots=True, plot_limit=None, data_type=None):
+def evaluate_final_model(model, test_loader, device, save_plots=True, plot_limit=None, data_type=None, brain_tree_plot=False):
 
     model.eval()
     all_labels = []
@@ -113,12 +113,12 @@ def evaluate_final_model(model, test_loader, device, save_plots=True, plot_limit
     all_new_edge_lists = []
 
     if data_type == 'cannabis':
-        df_roi = pd.read_csv('/home/jding/Music/Brain_Age_Modeling/data/tet_file/Cannabis_stanford.csv')
+        df_roi = pd.read_csv('./datasets/cannabis/data/Cannabis_stanford_network_mapping.csv')
         network_mapping = dict(zip(df_roi['parcel_ind'].astype(int), df_roi['yeo_network']))
         coords = np.array([eval(coord) for coord in np.array(df_roi['coordinates'])])
 
     elif data_type == 'cobre':
-        df_roi = pd.read_csv('/home/jding/Music/Brain_Age_Modeling/data/tet_file/COBRE_harvard_oxford_network_mapping_updated.csv')
+        df_roi = pd.read_csv('./datasets/COBRE/COBRE_harvard_oxford_network_mapping_updated.csv')
         network_mapping = dict(zip(df_roi['parcel_ind'].astype(int), df_roi['yeo_network']))
 
     network_stats = {
@@ -184,17 +184,17 @@ def evaluate_final_model(model, test_loader, device, save_plots=True, plot_limit
                         network_stats[label][f'level{level}'][network] += 1
   
             ########## Plot Brain Tree #########################
-            
-            plot_brain_tree(
-                data_type=data_type,
-                trunks_batch=trunks_batch,
-                # edge_lists_batch=edge_lists_batch_Z,
-                edge_lists_batch=edge_lists_batch,
-                df_roi=df_roi,
-                plot_dir='trunk_plots',
-                save_plots=save_plots,
-                plot_limit=plot_limit
-            )
+            if brain_tree_plot == True:
+                plot_brain_tree(
+                    data_type=data_type,
+                    trunks_batch=trunks_batch,
+                    # edge_lists_batch=edge_lists_batch_Z,
+                    edge_lists_batch=edge_lists_batch,
+                    df_roi=df_roi,
+                    plot_dir='trunk_plots',
+                    save_plots=save_plots,
+                    plot_limit=plot_limit
+                )
 
             ###########################
         
@@ -206,6 +206,7 @@ def evaluate_final_model(model, test_loader, device, save_plots=True, plot_limit
             all_output_ages.extend(output_age.cpu().numpy())
             all_new_edge_lists.extend(edge_lists)
 
+    if brain_tree_plot == True:   
         nature_colors = get_nature_colors()
         for label in [0, 1]:
             fig = create_combined_network_plot(network_stats, label, nature_colors)

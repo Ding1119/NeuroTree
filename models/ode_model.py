@@ -182,6 +182,5 @@ class STEODE(nn.Module):
         """
         # Apply normalization
         fc_strength = F.relu(fc_strength)  # Ensure non-negative values
-        import pdb;pdb.set_trace()
         fc_strength = fc_strength / (fc_strength.sum(dim=1, keepdim=True) + 1e-6)  # Normalize by sum
         return fc_strength
