@@ -45,7 +45,7 @@ In this work, we propose a novel framework called $\textbf{NuroTree}$ that contr
 
 ## Download Processed Data
 
-Processed data data file can be download from Lab google drive [Here](https://drive.google.com/drive/folders/1_jSPlO_wCqJ9hGrirt4T35SjdOUT0Ytp?usp=sharing)
+Processed data data file can be download from Lab google drive [Here](https://drive.google.com/drive/folders/1_jSPlO_wCqJ9hGrirt4T35SjdOUT0Ytp?usp=sharing) and put your local path ```./datasets```.
 
 ## 🗂️ Repository Structure
 
@@ -73,9 +73,9 @@ To run the training script with configurable parameters, using the cannabis data
 ```bash
 bash run_main_cannabis.sh
 ```
-### Task 1 (Graph Classification):
+### Task [Graph Classification & Brain Age Estimation]:
 
-Set the argparse **classes=2**
+You can set the argparse **classes=2** for graph classification or **classes=1** for brain age prediction task in our framework.
 
 ```bash
 data_type=cannabis
@@ -101,9 +101,9 @@ python main.py \
   --num_classes ${num_classes}
 ```
 
-### Task 2 (Brain Age Estimation):
-
-Set the argparse **classes=1**
+### :deciduous_tree: Visualize the brain tree of different mental disorders
 
 
-
+|                                                                  ![paths](./assets/figs/Brain_tree_plot.pdf)                                                                  |
+| :---------------------------------------------------------------------------------------------------------------------------------------------------------------: |
+| The visualization of the brain tree illustrates  psychiatric disorders structured into three hierarchical trunk levels. |
