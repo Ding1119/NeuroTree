@@ -100,7 +100,7 @@ python main.py \
   --num_classes ${num_classes}
 ```
 
-### :deciduous_tree: Visualize the brain tree of different mental disorders
+### :deciduous_tree: Visualize the Brain Tree of Different Mental Disorders
 
 | <img src="./assets/brain_tree_plot.png" width="80%"> |
 |:----------------------------------------------------:|
