@@ -45,10 +45,11 @@ In this work, we propose a novel framework called $\textbf{NuroTree}$ that contr
 
 ---
 
-<h2>
-  <img src="assets/google_drive.png" width="28" style="vertical-align: middle; margin-right: 8px;">
-  Download Processed Data
-</h2>
+<p align="left">
+  <img src="assets/google_drive.png" width="24" style="vertical-align: middle;"/>
+  <span style="font-size:24px; font-weight:bold; vertical-align: middle;">Download Processed Data</span>
+</p>
+
 
 Processed data data file can be download from Lab google drive [Here](https://drive.google.com/drive/folders/1_jSPlO_wCqJ9hGrirt4T35SjdOUT0Ytp?usp=sharing) and put your local path ```./datasets```.
 
