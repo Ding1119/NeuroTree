@@ -8,7 +8,7 @@
     <a href="https://www.jun-ending.com/" target='_blank'>Jun-En Ding</a><sup>1</sup>&nbsp;&nbsp;&nbsp;
     <a href="https://users.cs.fiu.edu/~dluo/" target='_blank'>Dongsheng Luo</a><sup>2</sup>&nbsp;&nbsp;&nbsp;
     <a href="https://www.linkedin.com/in/chenwei-wu-498a3515a/" target='_blank'>Chenwei Wu</a><sup>3</sup>&nbsp;&nbsp;&nbsp;
-    <a href="https://scholar.google.com/citations?user=lSDISOcAAAAJ" target='_blank'>Anna Zilverstand</a><sup>3</sup>&nbsp;&nbsp;&nbsp;
+    <a href="https://scholar.google.com/citations?user=jg5A1hwAAAAJ&hl=en" target='_blank'>Anna Zilverstand</a><sup>3</sup>&nbsp;&nbsp;&nbsp;
     <a href="https://www.stevens.edu/profile/fliu22" target='_blank'>Feng Liu</a><sup>1</sup>&nbsp;&nbsp;&nbsp;
     </br></br>
     <sup>1</sup>SIT (Brain Imaging & Graph Learning Lab)&nbsp;&nbsp;&nbsp;
