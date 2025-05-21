@@ -110,6 +110,16 @@ python main.py \
   --num_classes ${num_classes}
 ```
 
+### Plot Brain Tree
+
+You can set the **brain_tree_plot** argument to either *True* or *False* to plot the brain tree after model training.
+
+```python
+parser.add_argument('--brain_tree_plot', type=str, default=True)  
+```
+
+# 📊 Main Results
+
 ### :deciduous_tree: Visualize the Brain Tree of Different Mental Disorders
 
 | <img src="./assets/brain_tree_plot.png" width="80%"> |
@@ -138,14 +148,6 @@ python main.py \
 |:----------------------------------------------------:|
 | Predicted FC changes in different age groups and affiliated functional subnetworks. |
 
-## 👨🏻‍💻 Acknowledgement
-
-We would like to express our sincere gratitude to **Kaustubh R. Kulkarni** and **Dr. Xiaosi Gu** from **Mount Sinai** for generously providing open-access addiction-related neuroimaging data and for their valuable contributions to addiction neuroscience research.
-
-For further context on their work, we encourage readers to explore the following publication by Kaustubh R. Kulkarni:
-
-📄 [*An Interpretable and Predictive Connectivity-Based Neural Signature for Chronic Cannabis Use*](https://www.sciencedirect.com/science/article/pii/S2451902222001264)
-
 
 
 ## 📄 Citation
@@ -164,5 +166,14 @@ If you use this codebase, please cite:
 ## 📬 Contact
 
 Welcome to contact the [author](https://www.jun-ending.com/) at jding17@stevens.edu or collaborations if you have any questions about using the code. Note that experimental performance may vary slightly due to differences in computer hardware and environment.
+
+
+## 👨🏻‍💻 Acknowledgement
+
+We would like to express our sincere gratitude to **Kaustubh R. Kulkarni** and **Dr. Xiaosi Gu** from **Mount Sinai** for generously providing open-access addiction-related neuroimaging data and for their valuable contributions to addiction neuroscience research.
+
+For further context on their work, we encourage readers to explore the following publication by Kaustubh R. Kulkarni:
+
+📄 [*An Interpretable and Predictive Connectivity-Based Neural Signature for Chronic Cannabis Use*](https://www.sciencedirect.com/science/article/pii/S2451902222001264)
 
 
