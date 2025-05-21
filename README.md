@@ -111,3 +111,9 @@ python main.py \
 | <img src="./assets/age_estimate.png" width="80%"> |
 |:----------------------------------------------------:|
 | We predict brain age from fMRI between chronological age of gaps for mental disorders. These gaps can effectively measure brain differences between disease populations and healthy controls. |
+
+### 🟢🟡 Age-Related Brain Network Changes in Addiction and Schizophrenia
+
+| <img src="./assets/age_group_trajactory.png" width="80%"> |
+|:----------------------------------------------------:|
+| Predicted FC changes in different age groups and affiliated functional subnetworks. |
