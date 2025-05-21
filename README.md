@@ -117,6 +117,16 @@ python main.py \
 |:----------------------------------------------------:|
 | We predict brain age from fMRI between chronological age of gaps for mental disorders. These gaps can effectively measure brain differences between disease populations and healthy controls. |
 
+## 🔍 Convergence Analysis
+
+| <img src="./assets/k_hop_explanation.png" width="80%"> |
+|:----------------------------------------------------:|
+| The visualization of different decay meanings in spectral norm convergence.} The left side of the curve (blue section) demonstrates faster decay, which leads to more localized brain interaction patterns, visualized by a compact, hierarchical network structure with blue nodes. The right side (orange section) shows slower decay, which preserves longer-range dependencies, illustrated by a more distributed network with orange nodes connected across greater distances. |
+
+| <img src="./assets/k_hop.png" width="80%"> |
+|:----------------------------------------------------:|
+| The spectral norm of $\Phi_k(t)$ reveals differential convergence rates across varying $k$-orders among distinct mental disorders, notably demonstrating that cannabis exhibits a steeper convergence gradient compared to COBRE as $\lambda$ increases. |
+
 ### 🟢🟡 Age-Related Brain Network Changes in Addiction and Schizophrenia
 
 | <img src="./assets/age_group_trajactory.png" width="80%"> |
