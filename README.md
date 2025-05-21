@@ -45,7 +45,10 @@ In this work, we propose a novel framework called $\textbf{NuroTree}$ that contr
 
 ---
 
-<img src="assets/google_drive.png" width="24" style="vertical-align: middle;"/> <strong>## Download Processed Data</strong>
+<p>
+  <img src="assets/google_drive.png" width="24"> &nbsp;<strong>Download Processed Data</strong>
+</p>
+
 
 
 
