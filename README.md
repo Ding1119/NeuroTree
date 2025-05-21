@@ -73,7 +73,7 @@ To run the training script with configurable parameters, using the cannabis data
 ```bash
 bash run_main_cannabis.sh
 ```
-### Task [Graph Classification & Brain Age Estimation]:
+### 🔬 NeuroTasks: Classifying Brain Disorders & Estimating Brain Age
 
 You can set the argparse **classes=2** for graph classification or **classes=1** for brain age prediction task in our framework.
 
@@ -87,7 +87,6 @@ num_nodes=90
 input_dim=405
 hidden_dim=64
 num_classes=2
-
 
 python main.py \
   --data_type ${data_type} \
@@ -106,3 +105,9 @@ python main.py \
 | <img src="./assets/brain_tree_plot.png" width="80%"> |
 |:----------------------------------------------------:|
 | The visualization of the brain tree illustrates psychiatric disorders structured into three hierarchical trunk levels. |
+
+### 🕒 Brain Age Estimation
+
+| <img src="./assets/age_estimate.png" width="80%"> |
+|:----------------------------------------------------:|
+| We predict brain age from fMRI between chronological age of gaps for mental disorders. These gaps can effectively measure brain differences between disease populations and healthy controls. |
