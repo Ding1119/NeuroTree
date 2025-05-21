@@ -3,7 +3,9 @@ import pandas as pd
 from models.ode_model import *
 from sklearn.metrics import accuracy_score, roc_auc_score, mean_squared_error, f1_score, precision_score, recall_score, confusion_matrix
 from scipy.sparse.csgraph import minimum_spanning_tree
+from torch.utils.tensorboard import SummaryWriter
 from tree_trunk_utils import *
+from visualization.tree_plot import *
 
 
 class STEODETrainer:
@@ -99,20 +101,8 @@ def train_model(model, train_loader, test_loader, num_epochs, device):
         print(f"Epoch {epoch}: Train Loss = {avg_train_loss:.4f}, test Loss = {avg_test_loss:.4f}")
 
 
-def evaluate_final_model(model, test_loader, device, save_plots=True, plot_limit=None):
-    """
-    評估最終模型，計算指標並視覺化主幹路徑。
+def evaluate_final_model(model, test_loader, device, save_plots=True, plot_limit=None, data_type=None):
 
-    Args:
-        model (nn.Module): 訓練好的模型。
-        test_loader (DataLoader): 驗證數據加載器。
-        device (torch.device): 訓練設備。
-        save_plots (bool): 是否保存視覺化圖片。
-        plot_limit (int or None): 要視覺化的圖形數量限制，None表示全部。
-    
-    Returns:
-        list: 所有圖形的主幹路徑列表。
-    """
     model.eval()
     all_labels = []
     all_predictions = []
@@ -122,12 +112,27 @@ def evaluate_final_model(model, test_loader, device, save_plots=True, plot_limit
     all_trunk_list = []
     all_new_edge_lists = []
 
-    # 從CSV讀取ROI網絡信息
-    # df_roi = pd.read_csv('/home/jding/Music/Brain_Age_Modeling/data/df_stanford_coords_ROI_v2.csv')
-    df_roi = pd.read_csv('/home/jding/Music/Brain_Age_Modeling/data/tet_file/Cannabis_stanford.csv')
-    network_mapping = dict(zip(df_roi['parcel_ind'].astype(int), df_roi['yeo_network']))
-    coords = np.array([eval(coord) for coord in np.array(df_roi['coordinates'])])
-   
+    if data_type == 'cannabis':
+        df_roi = pd.read_csv('/home/jding/Music/Brain_Age_Modeling/data/tet_file/Cannabis_stanford.csv')
+        network_mapping = dict(zip(df_roi['parcel_ind'].astype(int), df_roi['yeo_network']))
+        coords = np.array([eval(coord) for coord in np.array(df_roi['coordinates'])])
+
+    elif data_type == 'cobre':
+        df_roi = pd.read_csv('/home/jding/Music/Brain_Age_Modeling/data/tet_file/COBRE_harvard_oxford_network_mapping_updated.csv')
+        network_mapping = dict(zip(df_roi['parcel_ind'].astype(int), df_roi['yeo_network']))
+
+    network_stats = {
+                0: {
+                    'level1': defaultdict(int),
+                    'level2': defaultdict(int),
+                    'level3': defaultdict(int)
+                },
+                1: {
+                    'level1': defaultdict(int),
+                    'level2': defaultdict(int),
+                    'level3': defaultdict(int)
+                }
+            }
 
 
     with torch.no_grad():
@@ -167,7 +172,31 @@ def evaluate_final_model(model, test_loader, device, save_plots=True, plot_limit
             fc_strength_batch=fc_strength.cpu(),
             max_level=3
                 )
+            
+            labels_np = labels.cpu().numpy()
+            for i, (trunk, label) in enumerate(zip(trunks_batch, labels_np)):
+                for level, path in enumerate(trunk, 1):
+                    for node_idx in path:
+                        if isinstance(node_idx, (list, tuple)):
+                            node_idx = node_idx[0]
+                        node_idx = int(node_idx)
+                        network = network_mapping.get(node_idx, 'Others')
+                        network_stats[label][f'level{level}'][network] += 1
   
+            ########## Plot Brain Tree #########################
+            
+            plot_brain_tree(
+                data_type=data_type,
+                trunks_batch=trunks_batch,
+                # edge_lists_batch=edge_lists_batch_Z,
+                edge_lists_batch=edge_lists_batch,
+                df_roi=df_roi,
+                plot_dir='trunk_plots',
+                save_plots=save_plots,
+                plot_limit=plot_limit
+            )
+
+            ###########################
         
             all_trunk_list.extend(trunks_batch)            
             all_labels.extend(labels.cpu().numpy())
@@ -176,6 +205,13 @@ def evaluate_final_model(model, test_loader, device, save_plots=True, plot_limit
             all_ages.extend(age.cpu().numpy())
             all_output_ages.extend(output_age.cpu().numpy())
             all_new_edge_lists.extend(edge_lists)
+
+        nature_colors = get_nature_colors()
+        for label in [0, 1]:
+            fig = create_combined_network_plot(network_stats, label, nature_colors)
+            plt.savefig(f'network_distribution_label_{label}_{data_type}.png', 
+                    bbox_inches='tight', dpi=300)
+            plt.close() 
 
 
     accuracy = accuracy_score(all_labels, all_predictions)

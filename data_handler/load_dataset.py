@@ -38,7 +38,7 @@ def custom_collate(batch):
 
 
 def load_cannabis(base_dir: str):
-    """讀取 Cannabis 資料集，回傳 raw_ts(list[np.ndarray]), labels, ages"""
+
     data_dir = join(base_dir, "data")
     parcellation_dir = join(data_dir, "compcor_nilearn_parcellation")
 

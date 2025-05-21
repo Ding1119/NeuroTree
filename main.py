@@ -11,6 +11,7 @@ from training_eval_utils import *
 from sklearn.model_selection import train_test_split
 
 
+
 def train_eval(data_type, num_epochs, batch_size, num_nodes, num_timesteps, input_dim, hidden_dim, num_classes):
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
@@ -67,7 +68,7 @@ def train_eval(data_type, num_epochs, batch_size, num_nodes, num_timesteps, inpu
     
     print("Evaluating final model...")
 
-    trunks = evaluate_final_model(model, test_loader, device, save_plots=True, plot_limit=10)
+    trunks = evaluate_final_model(model, test_loader, device, save_plots=True, plot_limit=10, data_type=data_type)
 
 
 
