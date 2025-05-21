@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="./assets/tree.jpeg" width="80">
+  <img src="./assets/tree.jpeg" width="30%">
 </p>
 
 <h2 align="center"><strong>NEUROTREE: Hierarchical Functional Brain Pathway Decoding for Mental Health Disorders</strong></h2>
