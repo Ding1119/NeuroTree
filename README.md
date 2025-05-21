@@ -48,8 +48,6 @@ In this work, we propose a novel framework called $\textbf{NuroTree}$ that contr
 ## 🌟 Download Processed Data
 
 
-
-
 Processed data data file can be download from Lab google drive [Here](https://drive.google.com/drive/folders/1_jSPlO_wCqJ9hGrirt4T35SjdOUT0Ytp?usp=sharing) and put your local path ```./datasets```.
 
 ## 🗂️ Repository Structure
@@ -70,6 +68,11 @@ NEUROTREE/
 ├── utils.py                            # Miscellaneous utility functions
 └── README.md                           # Project documentation
 ```
+
+## 📝 TODO List
+
+- ⬜ Jupyter Notebook Tutorial 
+- ⬜ Upload Video
 
 ## 🚀 Getting Started
 
@@ -133,7 +136,7 @@ python main.py \
 |:----------------------------------------------------:|
 | Predicted FC changes in different age groups and affiliated functional subnetworks. |
 
-## Acknowledgement
+## 👨🏻‍💻 Acknowledgement
 
 We would like to express our sincere gratitude to **Kaustubh R. Kulkarni** and **Dr. Xiaosi Gu** from **Mount Sinai** for generously providing open-access addiction-related neuroimaging data and for their valuable contributions to addiction neuroscience research.
 
