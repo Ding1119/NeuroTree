@@ -104,6 +104,6 @@ python main.py \
 ### :deciduous_tree: Visualize the brain tree of different mental disorders
 
 
-|                                                                  ![paths](./assets/figs/Brain_tree_plot.pdf)                                                                  |
+|                                                                  ![paths](./assets/figs/Brain_tree_plot.png)                                                                  |
 | :---------------------------------------------------------------------------------------------------------------------------------------------------------------: |
 | The visualization of the brain tree illustrates  psychiatric disorders structured into three hierarchical trunk levels. |
