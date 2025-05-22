@@ -123,7 +123,7 @@ parser.add_argument('--brain_tree_plot', type=str, default=True)
 
 | <img src="./assets/brain_tree_plot.png" width="80%"> |
 |:----------------------------------------------------:|
-| The visualization of the brain tree illustrates psychiatric disorders structured into three hierarchical trunk levels. |
+| The visualization shows different brain trees in mental health disorders, structured into three hierarchical trunk levels. |
 
 ### 🕒 Brain Age Estimation
 
