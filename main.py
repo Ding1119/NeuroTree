@@ -50,7 +50,7 @@ def train_eval(data_type, brain_tree_plot, num_epochs, batch_size, num_nodes, nu
     test_loader = DataLoader(test_dataset, batch_size=batch_size, collate_fn=custom_collate)
 
     print("Creating model...")
-    model = create_ste_ode_model(
+    model = create_neuro_ode_model(
         num_nodes=num_nodes,
         input_dim=input_dim,
         hidden_dim=hidden_dim,

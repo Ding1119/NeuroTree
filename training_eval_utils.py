@@ -8,7 +8,7 @@ from tree_trunk_utils import *
 from visualization.tree_plot import *
 
 
-class STEODETrainer:
+class NeuroODETrainer:
     def __init__(self, model, learning_rate=0.001, weight_decay=1e-5):
         self.model = model
         self.optimizer = torch.optim.Adam(
@@ -45,8 +45,8 @@ class STEODETrainer:
         return predictions, loss.item()
 
 
-def create_ste_ode_model(num_nodes, input_dim, hidden_dim, num_classes, num_timesteps):
-    model = STEODE(
+def create_neuro_ode_model(num_nodes, input_dim, hidden_dim, num_classes, num_timesteps):
+    model = NeuroODE(
         input_dim=input_dim,
         hidden_dim=hidden_dim,
         num_classes=num_classes,
@@ -56,7 +56,7 @@ def create_ste_ode_model(num_nodes, input_dim, hidden_dim, num_classes, num_time
     return model
 
 def train_model(model, train_loader, test_loader, num_epochs, device):
-    trainer = STEODETrainer(model)
+    trainer = NeuroODETrainer(model)
     model = model.to(device)
     best_test_loss = float('inf')
     patience_counter = 0
@@ -71,6 +71,7 @@ def train_model(model, train_loader, test_loader, num_epochs, device):
             labels = labels.to(device)
             age = age.to(device)
             loss = trainer.train_step(A_s, A_d_seq, X_seq, labels, age)
+            loss = loss / len(A_s)
             train_losses.append(loss)
 
         test_losses = []
@@ -83,6 +84,7 @@ def train_model(model, train_loader, test_loader, num_epochs, device):
                 labels = labels.to(device)
                 age = age.to(device)
                 _, loss = trainer.evaluate(A_s, A_d_seq, X_seq, labels, age)
+                loss = loss / len(A_s)
                 test_losses.append(loss)
 
         avg_train_loss = np.mean(train_losses)

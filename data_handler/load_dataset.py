@@ -180,7 +180,7 @@ def dataloader(data_type: str, num_timesteps: int):
     elif data_type == "cobre":
         raw_ts, labels, ages = load_cobre(
             "./datasets/COBRE",
-            "./datasets/COBRE_meta.csv",
+            "./datasets/COBRE/COBRE_meta.csv",
         )
         
     else:

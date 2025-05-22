@@ -25,8 +25,8 @@
 
 
 # 🧠 Overview
-
-In this work, we propose a novel framework called $\textbf{NuroTree}$ that contributes to computational neuroscience by integrating demographic information into Neural ODEs for brain network modeling via k-hop graph convolution, investigating addiction and schizophrenia datasets to decode fMRI signals and construct disease-specific brain trees with hierarchical functional subnetworks, and achieving state-of-the-art classification performance while effectively interpreting how these disorders alter functional connectivity related to brain age.
+Mental disorders are among the most widespread
+diseases globally. In this work, we propose a novel framework called $\textbf{NuroTree}$ that contributes to computational neuroscience by integrating demographic information into Neural ODEs for brain network modeling via k-hop graph convolution, investigating addiction and schizophrenia datasets to decode fMRI signals and construct disease-specific brain trees with hierarchical functional subnetworks, and achieving state-of-the-art classification performance while effectively interpreting how these disorders alter functional connectivity related to brain age.
 
 <p align="center">
     <img src="assets/framework.gif" width="100%"\>

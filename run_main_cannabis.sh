@@ -1,6 +1,6 @@
 data_type=cannabis
 brain_tree_plot=False
-num_epochs=5
+num_epochs=300
 batch_size=4
 num_timesteps=2
 num_nodes=90

@@ -2,9 +2,9 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
-class DirectedGraphEmbedding(nn.Module):
+class AGE_GraphEmbedding(nn.Module):
     def __init__(self, input_dim, hidden_dim, num_nodes):
-        super(DirectedGraphEmbedding, self).__init__()
+        super(AGE_GraphEmbedding, self).__init__()
         self.input_dim = input_dim
         self.hidden_dim = hidden_dim
         self.num_nodes = num_nodes
@@ -21,11 +21,11 @@ class DirectedGraphEmbedding(nn.Module):
         nn.init.constant_(self.lambda_param, 0.5)
         nn.init.constant_(self.beta, 0.1)
 
-    def forward(self, A_s, A_f, X, age):
+    def forward(self, A_s, A_d, X, age):
         """
         Args:
             A_s: [batch_size, num_nodes, num_nodes]
-            A_f: [batch_size, num_nodes, num_nodes]
+            A_d: [batch_size, num_nodes, num_nodes]
             X: [batch_size, num_nodes, input_dim]
             age: [batch_size, 1] or scalar representing age
         """
@@ -34,7 +34,7 @@ class DirectedGraphEmbedding(nn.Module):
         beta_val = torch.sigmoid(self.beta)
 
         # Combine forward and backward effective connectivity
-        A_combined = lambda_val * A_f + (1 - lambda_val) * A_f.transpose(-2, -1)
+        A_combined = lambda_val * A_d + (1 - lambda_val) * A_d.transpose(-2, -1)
         # A_combined = torch.linalg.matrix_power(A_combined, 3)
 
         # Apply structural constraint and learnable edge weights
@@ -55,9 +55,9 @@ class DirectedGraphEmbedding(nn.Module):
         return F.relu(Z)
     
 
-class STEODE(nn.Module):
+class NeuroODE(nn.Module):
     def __init__(self, input_dim, hidden_dim, num_classes, num_timesteps, num_nodes):
-        super(STEODE, self).__init__()
+        super(NeuroODE, self).__init__()
         self.input_dim = input_dim
         self.hidden_dim = hidden_dim
         self.num_classes = num_classes
@@ -65,7 +65,7 @@ class STEODE(nn.Module):
         self.num_nodes = num_nodes
         
         # Graph embedding layer
-        self.graph_embedding = DirectedGraphEmbedding(input_dim, hidden_dim, num_nodes)
+        self.graph_embedding = AGE_GraphEmbedding(input_dim, hidden_dim, num_nodes)
         
         # Classification layers
         self.mlp = nn.Sequential(
@@ -98,7 +98,7 @@ class STEODE(nn.Module):
         # Temperature parameter for contrastive loss
         self.temperature = nn.Parameter(torch.ones(1) * 0.07)
 
-    def forward(self, A_s, A_f_seq, X_seq, age, train_stage=None):
+    def forward(self, A_s, A_d_seq, X_seq, age, train_stage=None):
         batch_size = A_s.size(0)
         
         # Initialize embeddings
@@ -109,7 +109,7 @@ class STEODE(nn.Module):
         
         for t in range(self.num_timesteps):
             # Current functional connectivity matrix
-            curr_fc = A_f_seq[:, t]  # [batch_size, num_nodes, num_nodes]
+            curr_fc = A_d_seq[:, t]  # [batch_size, num_nodes, num_nodes]
             
             # Calculate FC strength for current timestep
             curr_fc_strength = curr_fc.abs().mean(dim=2)  # [batch_size, num_nodes]
@@ -153,7 +153,7 @@ class STEODE(nn.Module):
             fc_strength += F.softmax(projected_fc, dim=-1)
             
             # Update node embeddings
-            Z_new = self.graph_embedding(A_s, A_f_seq[:, t], X_seq[:, t], age)
+            Z_new = self.graph_embedding(A_s, A_d_seq[:, t], X_seq[:, t], age)
             Z = Z + Z_new
  
         # Average and normalize fc_strength
