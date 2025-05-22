@@ -1,7 +1,7 @@
 import networkx as nx
 
 def find_trunk_gnn_batch_with_fc_strength(node_scores_batch, edge_lists_batch, fc_strength_batch, max_level, S=2, alpha=0.1):
-    """Find trunk paths using high-order path information based on GPC (Graph Path Convolution).
+    """Find trunk paths using high-order path information.
     
     Args:
         node_scores_batch (torch.Tensor): [batch_size, num_nodes] node scores tensor

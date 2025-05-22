@@ -21,14 +21,14 @@ class AGE_GraphEmbedding(nn.Module):
         nn.init.constant_(self.lambda_param, 0.5)
         nn.init.constant_(self.beta, 0.1)
 
-    def calculate_k_order_operator(self, Ad_t, As, k):
+    def calculate_k_order_operator(self, Ad, As, k):
         """
         Calculate k-order operator according to equation 7
         """
         lambda_val = torch.sigmoid(self.lambda_param)
         gamma = torch.sigmoid(self.gamma)
         
-        Ad_normalized = Ad_t / (torch.sum(torch.abs(Ad_t), dim=-1, keepdim=True) + 1e-10)
+        Ad_normalized = Ad / (torch.sum(torch.abs(Ad), dim=-1, keepdim=True) + 1e-10)
         As_normalized = As / (torch.sum(torch.abs(As), dim=-1, keepdim=True) + 1e-10)
         
         weighted_Ad = lambda_val * Ad_normalized + (1 - lambda_val) * Ad_normalized.transpose(-2, -1)
@@ -50,7 +50,7 @@ class AGE_GraphEmbedding(nn.Module):
         """
         # Constrain lambda and beta to [0,1]
         lambda_val = torch.sigmoid(self.lambda_param)
-        gamma_val = torch.sigmoid(self.beta)
+        beta_val = torch.sigmoid(self.beta)
 
         # Combine forward and backward functional connectivity
         A_combined = lambda_val * A_d + (1 - lambda_val) * A_d.transpose(-2, -1)
@@ -62,7 +62,7 @@ class AGE_GraphEmbedding(nn.Module):
 
         # Incorporate age effect
         age_expanded = age.unsqueeze(-1).unsqueeze(-1) if len(age.shape) == 1 else age.view(-1, 1, 1)
-        age_effect = gamma_val * age_expanded * X
+        age_effect = beta_val * age_expanded * X
         # age_effect = gamma_val  * X (w/o age effect)
         # import pdb;pdb.set_trace()
 
