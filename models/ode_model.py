@@ -21,6 +21,25 @@ class AGE_GraphEmbedding(nn.Module):
         nn.init.constant_(self.lambda_param, 0.5)
         nn.init.constant_(self.beta, 0.1)
 
+    def calculate_k_order_operator(self, Ad_t, As, k):
+        """
+        Calculate k-order operator according to equation 7
+        """
+        lambda_val = torch.sigmoid(self.lambda_param)
+        gamma = torch.sigmoid(self.gamma)
+        
+        Ad_normalized = Ad_t / (torch.sum(torch.abs(Ad_t), dim=-1, keepdim=True) + 1e-10)
+        As_normalized = As / (torch.sum(torch.abs(As), dim=-1, keepdim=True) + 1e-10)
+        
+        weighted_Ad = lambda_val * Ad_normalized + (1 - lambda_val) * Ad_normalized.transpose(-2, -1)
+        
+        power_term = weighted_Ad
+        for _ in range(k - 1):
+            power_term = torch.matmul(power_term, weighted_Ad)
+        
+        A_k = gamma * As_normalized * power_term
+        return A_k
+
     def forward(self, A_s, A_d, X, age):
         """
         Args:
@@ -31,23 +50,23 @@ class AGE_GraphEmbedding(nn.Module):
         """
         # Constrain lambda and beta to [0,1]
         lambda_val = torch.sigmoid(self.lambda_param)
-        beta_val = torch.sigmoid(self.beta)
+        gamma_val = torch.sigmoid(self.beta)
 
-        # Combine forward and backward effective connectivity
+        # Combine forward and backward functional connectivity
         A_combined = lambda_val * A_d + (1 - lambda_val) * A_d.transpose(-2, -1)
-        # A_combined = torch.linalg.matrix_power(A_combined, 3)
+        # A_combined = torch.linalg.matrix_power(A_combined, 3) # k-hop evolution
 
-        # Apply structural constraint and learnable edge weights
+        
         gamma_expanded = self.gamma.unsqueeze(0).expand(A_s.size(0), -1, -1)
         A_weighted = gamma_expanded * A_s * A_combined
 
         # Incorporate age effect
         age_expanded = age.unsqueeze(-1).unsqueeze(-1) if len(age.shape) == 1 else age.view(-1, 1, 1)
-        age_effect = beta_val * age_expanded * X
-        # age_effect = beta_val  * X
+        age_effect = gamma_val * age_expanded * X
+        # age_effect = gamma_val  * X (w/o age effect)
         # import pdb;pdb.set_trace()
+
         # Graph convolution
-   
         # Z = torch.matmul(A_weighted, torch.matmul(X * age_effect, self.W))
    
         Z = torch.matmul(A_weighted, torch.matmul(X * age_effect, self.W))
