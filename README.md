@@ -129,7 +129,7 @@ parser.add_argument('--brain_tree_plot', type=str, default=True)
 
 | <img src="./assets/age_estimate.png" width="80%"> |
 |:----------------------------------------------------:|
-| We predict brain age from fMRI between chronological age of gaps for mental disorders. These gaps can effectively measure brain differences between disease populations and healthy controls. |
+| The scatterplot shows the gaps between fMRI-predicted brain age and chronological age for healthy control and mental disorder groups. These gaps can effectively measure brain differences between disease populations and healthy controls. |
 
 ## 🔍 Convergence Analysis
 
@@ -164,7 +164,7 @@ If you use this codebase, please cite:
 
 ## 📬 Contact
 
-Welcome to contact the [author](https://www.jun-ending.com/) at jding17@stevens.edu or collaborations if you have any questions about using the code. Note that experimental performance may vary slightly due to differences in computer hardware and environment.
+Welcome to contact the [Jun-En Ding](https://www.jun-ending.com/) at jding17@stevens.edu or collaborations if you have any questions about using the code. Note that experimental performance may vary slightly due to differences in computer hardware and environment.
 
 
 ## 👨🏻‍💻 Acknowledgement
