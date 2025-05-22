@@ -16,12 +16,11 @@
     <a href="https://profiles.mountsinai.org/kaustubh-r-kulkarni" target='_blank'>Kaustubh Kulkarni</a><sup>5</sup>&nbsp;&nbsp;&nbsp;
     <a href="https://www.stevens.edu/profile/fliu22" target='_blank'>Feng Liu</a><sup>1</sup>&nbsp;&nbsp;&nbsp;
     </br></br>
-    <sup>1</sup>SIT (Brain Imaging & Graph Learning Lab)&nbsp;&nbsp;&nbsp;
-    <sup>2</sup>FIU&nbsp;&nbsp;&nbsp;
-    <sup>3</sup>UMich&nbsp;&nbsp;&nbsp;
-    <sup>4</sup>UMN&nbsp;&nbsp;&nbsp;
-    <sup>5</sup>Mount Sinai&nbsp;&nbsp;&nbsp;  
 </div>
+
+<p align="center">
+    <img src="assets/schools.jpeg" width="100%"\>
+</p>
 
 
 # 🧠 Overview
