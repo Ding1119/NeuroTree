@@ -18,7 +18,7 @@ def find_trunk_gnn_batch_with_fc_strength(node_scores_batch, edge_lists_batch, f
     batch_size = node_scores_batch.size(0)
     num_nodes = node_scores_batch.size(1)
 
-    def calculate_path_gpc(G, path, fc_strength, S):
+    def calculate_s_order_path(G, path, fc_strength, S):
    
         path_weight = 0
         
@@ -91,14 +91,14 @@ def find_trunk_gnn_batch_with_fc_strength(node_scores_batch, edge_lists_batch, f
                 # Calculate weighted paths using GPC
                 def weighted_path_length(node1, node2):
                     path = nx.shortest_path(subgraph, node1, node2)
-                    gpc_weight = calculate_path_gpc(subgraph, path, fc_strength, S)
-                    # print(gpc_weight)
+                    fc_weight_weight = calculate_s_order_path(subgraph, path, fc_strength, S)
+
                     # import pdb;pdb.set_trace()
                     path_score = sum(scores[n] for n in path)
                     
-                    return alpha * path_score + (1 - alpha) * gpc_weight
+                    return alpha * path_score + (1 - alpha) * fc_weight_weight
                 
-                    # return path_score + gpc_weight
+                    # return path_score + fc_weight_weight
                 
                 # Find end node maximizing weighted path length
                 distances = {node: weighted_path_length(start_node, node) 
