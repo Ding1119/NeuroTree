@@ -18,11 +18,11 @@ def train_eval(data_type, brain_tree_plot, num_epochs, batch_size, num_nodes, nu
     print(f"=======Loading {data_type} dataset...=======")
 
     if data_type == 'cannabis':
-        A_s, A_f_seq, X_seq, labels, ages, edge_lists = dataloader(data_type, num_timesteps)
+        A_s, A_d_seq, X_seq, labels, ages, edge_lists = dataloader(data_type, num_timesteps)
         
 
     elif data_type == 'cobre':
-        A_s, A_f_seq, X_seq, labels, ages, edge_lists = dataloader(data_type, num_timesteps)
+        A_s, A_d_seq, X_seq, labels, ages, edge_lists = dataloader(data_type, num_timesteps)
 
     num_samples = len(A_s)
     indices = np.arange(num_samples)
@@ -32,7 +32,7 @@ def train_eval(data_type, brain_tree_plot, num_epochs, batch_size, num_nodes, nu
 
     train_dataset = BrainNetworkDataset(
                         A_s[train_indices],
-                        A_f_seq[train_indices],
+                        A_d_seq[train_indices],
                         X_seq[train_indices],
                         labels[train_indices],
                         ages[train_indices],
@@ -40,7 +40,7 @@ def train_eval(data_type, brain_tree_plot, num_epochs, batch_size, num_nodes, nu
 
     test_dataset = BrainNetworkDataset(
                         A_s[test_indices],
-                        A_f_seq[test_indices],
+                        A_d_seq[test_indices],
                         X_seq[test_indices],
                         labels[test_indices],
                         ages[test_indices],

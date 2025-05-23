@@ -154,10 +154,10 @@ parser.add_argument('--brain_tree_plot', type=str, default=True)
 If you use this codebase, please cite:
 
 ```
-@article{your2025neurotree,
-  title={NEUROTREE: Hierarchical Functional Brain Pathway Decoding for Mental Health Disorders},
-  author={Your Name et al.},
-  journal={[Journal Name]},
+@article{ding2025neurotree,
+  title={NeuroTree: Hierarchical Functional Brain Pathway Decoding for Mental Health Disorders},
+  author={Ding, Jun-En and Luo, Dongsheng and Zilverstand, Anna and Liu, Feng},
+  journal={arXiv preprint arXiv:2502.18786},
   year={2025}
 }
 ```
