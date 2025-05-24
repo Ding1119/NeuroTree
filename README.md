@@ -86,6 +86,8 @@ bash run_main_cannabis.sh
 
 You can set the argparse **classes=2** for graph classification or **classes=1** for brain age prediction task in our framework.
 
+To estimate brain age, we trained exclusively on healthy controls (label = 0) and tested on individuals with neurological or psychiatric disorders (label = 1), such as those with addiction or schizophrenia. This setup aims to assess whether the age-related patterns learned from healthy brains can predict deviations in brain aging observed in disease groups. The results are shown in [Brain Age Estimation](#-brain-age-estimation).
+
 ```bash
 data_type=cannabis
 brain_tree_plot=False

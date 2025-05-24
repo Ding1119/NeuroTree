@@ -24,30 +24,56 @@ def train_eval(data_type, brain_tree_plot, num_epochs, batch_size, num_nodes, nu
     elif data_type == 'cobre':
         A_s, A_d_seq, X_seq, labels, ages, edge_lists = dataloader(data_type, num_timesteps)
 
-    num_samples = len(A_s)
-    indices = np.arange(num_samples)
-    train_indices, test_indices = train_test_split(indices, test_size=0.2, random_state=42)
-    train_edge_lists = [edge_lists[i] for i in train_indices]
-    test_edge_lists = [edge_lists[i] for i in test_indices]
+    if num_classes == 2:
 
-    train_dataset = BrainNetworkDataset(
-                        A_s[train_indices],
-                        A_d_seq[train_indices],
-                        X_seq[train_indices],
-                        labels[train_indices],
-                        ages[train_indices],
-                        train_edge_lists)
+        num_samples = len(A_s)
+        indices = np.arange(num_samples)
+        train_indices, test_indices = train_test_split(indices, test_size=0.2, random_state=42)
+        train_edge_lists = [edge_lists[i] for i in train_indices]
+        test_edge_lists = [edge_lists[i] for i in test_indices]
 
-    test_dataset = BrainNetworkDataset(
-                        A_s[test_indices],
-                        A_d_seq[test_indices],
-                        X_seq[test_indices],
-                        labels[test_indices],
-                        ages[test_indices],
-                        test_edge_lists)
+        train_dataset = BrainNetworkDataset(
+                            A_s[train_indices],
+                            A_d_seq[train_indices],
+                            X_seq[train_indices],
+                            labels[train_indices],
+                            ages[train_indices],
+                            train_edge_lists)
 
-    train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True, collate_fn=custom_collate)
-    test_loader = DataLoader(test_dataset, batch_size=batch_size, collate_fn=custom_collate)
+        test_dataset = BrainNetworkDataset(
+                            A_s[test_indices],
+                            A_d_seq[test_indices],
+                            X_seq[test_indices],
+                            labels[test_indices],
+                            ages[test_indices],
+                            test_edge_lists)
+
+        train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True, collate_fn=custom_collate)
+        test_loader = DataLoader(test_dataset, batch_size=batch_size, collate_fn=custom_collate)
+
+    elif num_classes == 1:
+        
+        # traini on healthy control and test on disease group for age prediction
+        num_samples = len(A_s)
+        train_indices = np.where(labels == 0)[0]   # healthy control
+        test_indices  = np.where(labels == 1)[0]   # disease group
+
+        train_edge_lists = [edge_lists[i] for i in train_indices]
+        test_edge_lists  = [edge_lists[i] for i in test_indices]
+
+        train_dataset = BrainNetworkDataset(
+            A_s[train_indices],  A_d_seq[train_indices],  X_seq[train_indices],
+            labels[train_indices], ages[train_indices],   train_edge_lists
+        )
+        test_dataset  = BrainNetworkDataset(
+            A_s[test_indices],   A_d_seq[test_indices],   X_seq[test_indices],
+            labels[test_indices], ages[test_indices],     test_edge_lists
+        )
+
+        train_loader = DataLoader(train_dataset, batch_size=batch_size,
+                                shuffle=True,  collate_fn=custom_collate)
+        test_loader  = DataLoader(test_dataset,  batch_size=batch_size,
+                                shuffle=False, collate_fn=custom_collate)
 
     print("Creating model...")
     model = create_neuro_ode_model(

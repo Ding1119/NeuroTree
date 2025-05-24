@@ -246,9 +246,9 @@ def evaluate_final_model(model, test_loader, device, save_plots=True, plot_limit
     if auc is not None:
         print(f"Final Model Prediction: Accuracy = {accuracy:.4f}, AUC = {auc:.4f}")
     else:
-        print(f"Final Model Prediction: Accuracy = {accuracy:.4f}, MSE (Age) = {mse_age:.4f}")
+        print(f"MSE (Age) = {mse_age:.4f}")
     
-    predictions_array = np.argmax(all_outputs, axis=1)
-    print("Predictions:", predictions_array.flatten())
+    # predictions_array = np.argmax(all_outputs, axis=1)
+    # print("Predictions:", predictions_array.flatten())
 
     return all_trunk_list

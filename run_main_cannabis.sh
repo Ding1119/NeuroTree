@@ -6,7 +6,7 @@ num_timesteps=2
 num_nodes=90
 input_dim=405
 hidden_dim=64
-num_classes=2
+num_classes=1
 
 
 python main.py \
