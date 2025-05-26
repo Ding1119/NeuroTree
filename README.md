@@ -185,13 +185,19 @@ For further context on their work, we encourage readers to explore the following
 
 
 
-<img src="/assets/cat.gif" alt="" width="100%"/>
-<table>
-  <tr>
-    <td>You are visitor</td>
-    <td><img src="https://profile-counter.glitch.me/NeuroTree/count.svg" alt="" /></td>
-  </tr>
-</table>
+<div align="center">
+  <img src="/assets/cat.gif" alt="cat gif" width="100%" />
+</div>
+
+<div align="center">
+  <table>
+    <tr>
+      <td>You are visitor</td>
+      <td><img src="https://profile-counter.glitch.me/NeuroTree/count.svg" alt="visitor count" /></td>
+    </tr>
+  </table>
+</div>
+
 
 
 
