@@ -187,7 +187,7 @@ For further context on their work, we encourage readers to explore the following
 
 
 <div align="center">
-  <img src="/assets/cat.gif" alt="cat gif" width="40%" />
+  <img src="/assets/cat.gif" alt="cat gif" width="30%" />
 </div>
 
 <div align="center">
@@ -198,7 +198,4 @@ For further context on their work, we encourage readers to explore the following
     </tr>
   </table>
 </div>
-
-
-<
 
