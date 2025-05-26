@@ -3,11 +3,12 @@ import torch.nn as nn
 import torch.nn.functional as F
 
 class AGE_GraphEmbedding(nn.Module):
-    def __init__(self, input_dim, hidden_dim, num_nodes):
+    def __init__(self, input_dim, hidden_dim, num_nodes, num_classes):
         super(AGE_GraphEmbedding, self).__init__()
         self.input_dim = input_dim
         self.hidden_dim = hidden_dim
         self.num_nodes = num_nodes
+        self.num_classes = num_classes
 
         self.W = nn.Parameter(torch.FloatTensor(input_dim, hidden_dim))
         self.gamma = nn.Parameter(torch.FloatTensor(num_nodes, num_nodes))
@@ -62,7 +63,11 @@ class AGE_GraphEmbedding(nn.Module):
 
         # Incorporate age effect
         age_expanded = age.unsqueeze(-1).unsqueeze(-1) if len(age.shape) == 1 else age.view(-1, 1, 1)
-        age_effect = beta_val * age_expanded * X
+        
+        if self.num_classes == 2:
+            age_effect = beta_val * age_expanded * X
+        elif self.num_classes == 1:
+            age_effect = beta_val * X
         # age_effect = gamma_val  * X (w/o age effect)
         # import pdb;pdb.set_trace()
 
@@ -84,7 +89,7 @@ class NeuroODE(nn.Module):
         self.num_nodes = num_nodes
         
         # Graph embedding layer
-        self.graph_embedding = AGE_GraphEmbedding(input_dim, hidden_dim, num_nodes)
+        self.graph_embedding = AGE_GraphEmbedding(input_dim, hidden_dim, num_nodes, num_classes)
         
         # Classification layers
         self.mlp = nn.Sequential(

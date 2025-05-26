@@ -36,7 +36,7 @@ class NeuroODETrainer:
         self.model.eval()
         outputs, outputs_age, node_scores  ,_, cl_loss, fc_strength = self.model(A_s, A_d_seq, X_seq, age)
         if self.model.num_classes == 1:
-            loss = F.mse_loss(outputs_age.squeeze(), age)
+            loss = F.mse_loss(outputs_age.squeeze(), age) + cl_loss
             predictions = outputs_age
         else:
             loss = F.cross_entropy(outputs, labels) +  cl_loss
