@@ -82,6 +82,11 @@ To run the training script with configurable parameters, using the cannabis data
 ```bash
 bash run_main_cannabis.sh
 ```
+
+<p align="center">
+    <img src="assets/traininig_testing_recording.gif" width="100%"\>
+</p>
+
 ### 🔬 NeuroTasks: Classifying Brain Disorders & Estimating Brain Age
 
 You can set the argparse **classes=2** for graph classification or **classes=1** for brain age prediction task in our framework.
