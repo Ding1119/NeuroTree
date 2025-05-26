@@ -169,12 +169,6 @@ If you use this codebase, please cite:
 }
 ```
 
-<table>
-  <tr>
-    <td>You are visitor</td>
-    <td><img src="https://profile-counter.glitch.me/NeuroTree/count.svg" alt="" /></td>
-  </tr>
-</table>
 
 ## 📬 Contact
 
@@ -188,5 +182,16 @@ We would like to express our sincere gratitude to **Kaustubh R. Kulkarni** and *
 For further context on their work, we encourage readers to explore the following publication by Kaustubh R. Kulkarni:
 
 📄 [*An Interpretable and Predictive Connectivity-Based Neural Signature for Chronic Cannabis Use*](https://www.sciencedirect.com/science/article/pii/S2451902222001264)
+
+
+
+<img src="/assets/cat.gif" alt="" width="100%"/>
+<table>
+  <tr>
+    <td>You are visitor</td>
+    <td><img src="https://profile-counter.glitch.me/NeuroTree/count.svg" alt="" /></td>
+  </tr>
+</table>
+
 
 
