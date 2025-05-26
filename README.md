@@ -199,9 +199,5 @@ For further context on their work, we encourage readers to explore the following
 </div>
 
 
-<p align="center">
-  Visitors：<img src="https://visitor-badge.glitch.me/badge?page_id=Ding1119.NeuroTree" alt="visitor badge"/>
-</p>
-
-
+<
 
