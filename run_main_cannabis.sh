@@ -8,7 +8,6 @@ input_dim=405
 hidden_dim=64
 num_classes=2
 
-
 python main.py \
   --data_type ${data_type} \
   --brain_tree_plot ${brain_tree_plot} \
