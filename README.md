@@ -186,7 +186,7 @@ For further context on their work, we encourage readers to explore the following
 
 
 <div align="center">
-  <img src="/assets/cat.gif" alt="cat gif" width="100%" />
+  <img src="/assets/cat.gif" alt="cat gif" width="40%" />
 </div>
 
 <div align="center">
