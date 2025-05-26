@@ -6,6 +6,7 @@
 
 <div align="center">
 <a href="https://arxiv.org/abs/2502.18786"><img src="https://img.shields.io/badge/arXiv-2502.18786-%23B31C1C?logo=arxiv&logoSize=auto"></a>
+<img src="https://komarev.com/ghpvc/?username=NeuroTree&label=Unique%20Visitors&color=0e75b6&style=flat" alt="unique visitors" />
 </div>
 
 <div align="center">
