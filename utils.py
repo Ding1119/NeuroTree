@@ -3,6 +3,12 @@ from nilearn.connectome import ConnectivityMeasure
 from scipy.sparse.csgraph import minimum_spanning_tree
 
 def tree_construction(fmri_timeseries):
+    """
+    adapted from Huang, Zhongyu, et al. "Identifying the hierarchical emotional areas in the human brain through information fusion." Information Fusion 113 (2025): 102613.
+
+    https://github.com/zhongyu1998/HEmoN
+    """
+    
 
     fmri_timeseries = fmri_timeseries.T
 
