@@ -72,7 +72,6 @@ class AGE_GraphEmbedding(nn.Module):
         # import pdb;pdb.set_trace()
 
         # Graph convolution
-        # Z = torch.matmul(A_weighted, torch.matmul(X * age_effect, self.W))
    
         Z = torch.matmul(A_weighted, torch.matmul(X * age_effect, self.W))
         # Z = torch.matmul(A_weighted, torch.matmul(X , self.W))

@@ -180,11 +180,6 @@ Welcome to contact the [Jun-En Ding](https://www.jun-ending.com/) at jding17@ste
 
 We would like to express our sincere gratitude to **Kaustubh R. Kulkarni** and **Dr. Xiaosi Gu** from **Mount Sinai** for generously providing open-access addiction-related neuroimaging data and for their valuable contributions to addiction neuroscience research.
 
-For further context on their work, we encourage readers to explore the following publication by Kaustubh R. Kulkarni:
-
-📄 [*An Interpretable and Predictive Connectivity-Based Neural Signature for Chronic Cannabis Use*](https://www.sciencedirect.com/science/article/pii/S2451902222001264)
-
-
 
 <div align="center">
   <img src="/assets/cat.gif" alt="cat gif" width="30%" />
