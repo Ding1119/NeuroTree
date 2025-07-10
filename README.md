@@ -188,12 +188,4 @@ We would like to express our sincere gratitude to **Kaustubh R. Kulkarni** and *
   <img src="/assets/cat.gif" alt="cat gif" width="30%" />
 </div>
 
-<div align="center">
-  <table>
-    <tr>
-      <td>You are visitor</td>
-      <td><img src="https://profile-counter.glitch.me/NeuroTree/count.svg" alt="visitor count" /></td>
-    </tr>
-  </table>
-</div>
 
