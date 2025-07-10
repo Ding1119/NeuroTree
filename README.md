@@ -7,6 +7,9 @@
 <div align="center">
 <a href="https://arxiv.org/abs/2502.18786"><img src="https://img.shields.io/badge/arXiv-2502.18786-%23B31C1C?logo=arxiv&logoSize=auto"></a>
 <img src="https://komarev.com/ghpvc/?username=NeuroTree&style=flat-square&color=blue" alt="Profile views"/>
+<a href="https://icml.cc/media/PosterPDFs/ICML%202025/44671.png?t=1751590198.6550772" target="_blank">
+  <img src="https://img.shields.io/badge/Poster-ICML2025-blue?logo=google%20slides">
+</a>
 </div>
 
 <div align="center">
