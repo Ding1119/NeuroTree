@@ -177,7 +177,7 @@ If you use this codebase, please cite:
 
 ## MIT License
 
-This repository's source code is available under the
+
 
 Copyright (c) 2025 Jun-En Ding
 
