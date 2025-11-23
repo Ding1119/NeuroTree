@@ -42,7 +42,7 @@ def load_cannabis(base_dir: str):
     data_dir = join(base_dir, "data")
     parcellation_dir = join(data_dir, "compcor_nilearn_parcellation")
 
-    # 🚨 這裡強制 subject 讀成字串，避免前導零被吃掉
+
     df = pd.read_csv(join(base_dir, "data", "demographics.csv"),
                      dtype={"subject": str})
 
@@ -52,8 +52,8 @@ def load_cannabis(base_dir: str):
 
     for _, row in df.iterrows():
 
-       
-        subject_id = str(row.subject).zfill(6)  
+
+        subject_id = str(row.subject).zfill(6) 
 
         file_path = join(parcellation_dir, f"{subject_id}_stanford_rois.csv")
 
